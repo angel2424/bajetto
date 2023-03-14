@@ -3,7 +3,7 @@ import { FaGoogle, FaApple, FaFacebookF } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import signIn from "@/firebase/auth/login";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -11,6 +11,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -23,7 +24,6 @@ export default function Login() {
     }
 
     // else successful
-    console.log(result);
     router.push("/dashboard");
   };
 
@@ -40,12 +40,7 @@ export default function Login() {
         </div>
         <div className="lg:flex-1 pt-6 lg:pt-0 xl:ml-0 xl:px-16 text-center lg:text-left px-5 w-full">
           <h1 className="text-gray-900 font-bold text-4xl">Welcome back!</h1>
-          <form
-            className="mt-8 space-y-6"
-            action="#"
-            onSubmit={handleSubmit}
-            method="POST"
-          >
+          <form className="mt-8 space-y-6" action="#" method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
             <div>
               <div>
@@ -105,6 +100,7 @@ export default function Login() {
 
             <div>
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="bg-blue-700 rounded-md py-3 px-4 w-full text-white"
               >

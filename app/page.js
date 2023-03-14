@@ -2,11 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default function Landing() {
   return (
     <main>
-      <div className="container mx-auto max-w-8xl px-2 pt-10 lg:pt-0 sm:px-6 lg:px-8 flex h-screen items-center justify-center justify-items-center flex-col lg:flex-row">
+      <div className="container mx-auto h-screen max-w-8xl px-2 pt-10 lg:pt-0 sm:px-6 lg:px-8 flex items-center justify-center flex-col lg:flex-row">
         <div className="lg:flex-1 px-10 lg:pr-20 lg:pl-0">
           <Image
             src={"/landing_illustration.jpg"}
@@ -32,12 +31,12 @@ export default function Landing() {
               Login
             </button>
           </Link>
-          <p className="text-gray-600 font-medium mt-4">
-            Don’t have an account?{" "}
-            <Link href={"/signup"}>
+          <div className="flex items-center justify-center mt-4">
+            <p className="text-gray-600 font-medium">Don’t have an account?</p>
+            <Link href={"/signup"} className="ml-2">
               <span className="text-blue-800 font-bold">Sign up</span>{" "}
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </main>

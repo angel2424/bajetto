@@ -2,14 +2,12 @@
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import signUp from "@/firebase/auth/signup";
-import addDoc from "@/firebase/docs/addDoc";
-import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const { user } = useContext(AuthContext);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,26 +15,16 @@ export default function Login() {
     password: "",
     confirmPassword: "",
   });
-  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (formData.confirmPassword === formData.password) {
-      const { result, error } = await signUp(formData.email, formData.password);
-
-      const { docResult, docError } = await addDoc(user?.uid, {
-        name: { firstName: formData.firstName, lastName: formData.lastName },
-        email: formData.email,
-        income: {
-          amount: "",
-          frequency: "",
-          paymentDay: "",
-        },
-        savings: "",
-        fixedExpenses: [],
-        oneTimeExpenses: [],
-      });
+      const { result, error } = await signUp(
+        formData.email,
+        formData.password,
+        formData
+      );
 
       setFormData({
         firstName: "",
@@ -47,12 +35,7 @@ export default function Login() {
       });
       if (error) {
         return console.log(error);
-      } else if (docError) {
-        console.log(docError);
       }
-
-      console.log(result);
-      console.log(docResult);
       router.push("/dashboard");
     } else {
       console.log("Passwords don't match");

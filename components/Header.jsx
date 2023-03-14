@@ -1,9 +1,10 @@
 "use client";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import signOutAuth from "@/firebase/auth/signout";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -24,10 +25,7 @@ export default function Header() {
   };
 
   return (
-    <Disclosure
-      as="nav"
-      className="bg-white lg:fixed left-0 right-0 top-0 static"
-    >
+    <Disclosure as="nav" className="bg-white static">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
@@ -45,12 +43,14 @@ export default function Header() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <h1 className="text-2xl font-bold">Bajetto</h1>
+                  <Link href={"/"} className="text-2xl font-bold">
+                    Bajetto
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block w-full">
                   <div className="flex space-x-6 h-full items-center justify-center">
                     <a
-                      href="/"
+                      href="/dashboard"
                       className={classNames(
                         "bg-white text-grey-600 hover:text-blue-700 text-md font-medium"
                       )}
@@ -68,7 +68,7 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="absolute inset-y-0 right-0 md:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden">
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -145,7 +145,7 @@ export default function Header() {
             <div className="space-y-1 px-10 py-3">
               <Disclosure.Button
                 as="a"
-                href="/"
+                href="/dashboard"
                 className={classNames(
                   "text-gray-700 hover:text-blue-800 font-medium text-xl"
                 )}
@@ -164,6 +164,24 @@ export default function Header() {
                 Expenses
               </Disclosure.Button>
             </div>
+            <Link
+              href="/"
+              className="space-y-1 px-10 py-3 flex items-center mt-10"
+            >
+              <Disclosure.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <span className="sr-only">Open user menu</span>
+                <Image
+                  className="h-10 w-10 rounded-full"
+                  src="https://res.cloudinary.com/dpnv2uar8/image/upload/v1675726490/portrait_x2oyeq.jpg"
+                  alt=""
+                  width={40}
+                  height={40}
+                />
+              </Disclosure.Button>
+              <Disclosure.Button className="font-semibold ml-4">
+                View profile
+              </Disclosure.Button>
+            </Link>
           </Disclosure.Panel>
         </>
       )}

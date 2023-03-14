@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Login() {
   return (
     <main>
-      <div className="mx-auto h-full lg:h-screen max-w-8xl px-2 pt-10 pb-10 lg:pt-0 lg:pb-0 sm:px-5 lg:px-8 flex items-center justify-center justify-items-center flex-col lg:flex-row">
+      <div className="mx-auto h-[100svh] lg:h-screen max-w-8xl px-2 pt-10 pb-10 lg:pt-0 lg:pb-0 sm:px-5 lg:px-8 flex items-center justify-center justify-items-center flex-col lg:flex-row">
         <div className="lg:flex-1 px-10 lg:pr-20 lg:pl-0 mx-20">
           <Image
             src={"/auth_illustration.png"}
