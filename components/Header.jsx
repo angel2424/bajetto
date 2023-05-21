@@ -2,15 +2,18 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaSlidersH } from "react-icons/fa";
 import Image from "next/image";
 import signOutAuth from "@/firebase/auth/signout";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+  const router = useRouter()
   const handleSignOut = async (e) => {
     e.preventDefault();
 
@@ -21,18 +24,18 @@ export default function Header() {
     }
 
     // else successful
-    console.log(result);
+    router.push('/')
   };
 
   return (
-    <Disclosure as="nav" className="bg-white static">
+    <Disclosure as="nav" className="bg-white mb-2">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
-            <div className="relative flex h-24 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <div className="relative flex sm:h-24 h-20 items-center justify-between">
+              <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-800 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md mx-2 p-2 text-gray-800 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -141,47 +144,62 @@ export default function Header() {
 
           {/* Mobile Nav */}
 
-          <Disclosure.Panel className="sm:hidden bg-white w-full h-screen fixed z-30">
-            <div className="space-y-1 px-10 py-3">
-              <Disclosure.Button
-                as="a"
-                href="/dashboard"
-                className={classNames(
-                  "text-gray-700 hover:text-blue-800 font-medium text-xl"
-                )}
-              >
-                Dashboard
-              </Disclosure.Button>
-            </div>
-            <div className="space-y-4 px-10 py-3">
-              <Disclosure.Button
-                as="a"
+          <Disclosure.Panel className="sm:hidden bg-white w-full h-screen fixed z-30 font-medium text-xl">
+            <div className="flex flex-col justify-between h-[calc(100svh-theme('spacing.28'))] pb-8">
+              <Link
                 href="/"
-                className={classNames(
-                  "text-gray-700 hover:text-blue-800 font-medium text-xl"
-                )}
+                className="space-y-1 px-10 py-3 flex items-center mt-2"
               >
-                Expenses
-              </Disclosure.Button>
+                <Disclosure.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <span className="sr-only">Open user menu</span>
+                  <Image
+                    className="h-12 w-12 rounded-full"
+                    src="https://res.cloudinary.com/dpnv2uar8/image/upload/v1675726490/portrait_x2oyeq.jpg"
+                    alt=""
+                    width={40}
+                    height={40}
+                  />
+                </Disclosure.Button>
+                <div className="font-semibold ml-4 flex flex-col justify-center">
+                  <span>Hello Angel!</span>
+                </div>
+              </Link>
+              <div className="py-10">
+                <div className="space-y-1 px-10 py-3">
+                  <Disclosure.Button
+                    as="a"
+                    href="/dashboard"
+                    className={classNames("text-gray-700"
+                    )}
+                  >
+                    Dashboard
+                  </Disclosure.Button>
+                </div>
+                <div className="space-y-4 px-10 py-3">
+                  <Disclosure.Button
+                    as="a"
+                    href="/"
+                    className={classNames(
+                      "text-gray-70"
+                    )}
+                  >
+                    Concurrent Expenses
+                  </Disclosure.Button>
+                </div>
+              </div>
+              <div className="px-10 pt-3 mt-auto">
+                <Disclosure.Button
+                  as="a"
+                  href="/"
+                  className={classNames(
+                    "text-gray-70 mt-auto h-full flex items-center"
+                  )}
+                >
+                  <FaSlidersH className="mr-3" />
+                  Settings
+                </Disclosure.Button>
+              </div>              
             </div>
-            <Link
-              href="/"
-              className="space-y-1 px-10 py-3 flex items-center mt-10"
-            >
-              <Disclosure.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <span className="sr-only">Open user menu</span>
-                <Image
-                  className="h-10 w-10 rounded-full"
-                  src="https://res.cloudinary.com/dpnv2uar8/image/upload/v1675726490/portrait_x2oyeq.jpg"
-                  alt=""
-                  width={40}
-                  height={40}
-                />
-              </Disclosure.Button>
-              <Disclosure.Button className="font-semibold ml-4">
-                View profile
-              </Disclosure.Button>
-            </Link>
           </Disclosure.Panel>
         </>
       )}

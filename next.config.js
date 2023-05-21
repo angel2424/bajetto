@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: true,
+    appDir: true
   },
   images: {
     remotePatterns: [
@@ -12,7 +12,7 @@ const nextConfig = {
         pathname: "/dpnv2uar8/**",
       },
     ],
-  },
+  }
 };
 
 module.exports = nextConfig;

@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -22,13 +20,10 @@ export default function Login() {
     if (formData.confirmPassword === formData.password) {
       const { result, error } = await signUp(
         formData.email,
-        formData.password,
-        formData
+        formData.password
       );
 
       setFormData({
-        firstName: "",
-        lastName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -36,7 +31,7 @@ export default function Login() {
       if (error) {
         return console.log(error);
       }
-      router.push("/dashboard");
+      router.push("/user/income");
     } else {
       console.log("Passwords don't match");
     }
@@ -67,48 +62,6 @@ export default function Login() {
             method="POST"
           >
             <div className="my-12">
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  First Name
-                </label>
-                <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  autoComplete="family-name"
-                  required
-                  className="relative block w-full h-12 mb-6 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-md"
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      firstName: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Last Name
-                </label>
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  autoComplete="family-name"
-                  required
-                  className="relative block w-full h-12 mb-6 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-md"
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      lastName: e.target.value,
-                    })
-                  }
-                />
-              </div>
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address

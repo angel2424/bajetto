@@ -1,15 +1,16 @@
 "use client";
 
 import updateData from "@/firebase/docs/updateData";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function IncomeForm({ userId }) {
+export default function IncomeForm({ userId, data }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    amount: "",
-    payday: "0",
-    frequency: "Monthly",
+    amount: data.income.amount,
+    payday: data.income.payday,
+    frequency: data.income.frequency,
   });
   
   const handleSubmit = async (event) => {
@@ -21,17 +22,19 @@ export default function IncomeForm({ userId }) {
       },
     });
 
+    if (updateDocError) {
+      return console.log(updateDocError);
+    }
+
     if (formData.amount !== "" && formData.payday !== "") {
       setFormData({
         amount: "",
         payday: "",
         frequency: "",
       });
-    } else {
-      console.log("Passwords don't match");
     }
     
-    router.push('/user/savings')
+    router.push('/dashboard')
   };
 
   return (
@@ -122,8 +125,16 @@ export default function IncomeForm({ userId }) {
           type="submit"
           className="bg-blue-700 rounded-md py-3 mt-3 px-4 w-full text-white"
         >
-          Next
+          Save
         </button>
+        <Link href={'/dashboard'}>
+          <button
+            type="button"
+            className="bg-white border border-red-500 hover:border-red-500 hover:text-red-400 transition duration-200 hover:scale-[101.5%] rounded-md py-3 mt-3 px-4 w-full text-red-500"
+          >
+            Cancel
+          </button>
+        </Link>
       </div>
     </form>
   );

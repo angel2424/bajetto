@@ -1,16 +1,21 @@
 "use client";
-import { FaGoogle, FaApple, FaFacebookF } from "react-icons/fa";
+import { FaGoogle, FaApple, FaFacebookF, FaTwitter } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import signIn from "@/firebase/auth/login";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { CookiesProvider, useCookies } from "react-cookie";
+import twitterAuth from "../../firebase/auth/twitterAuth";
+import facebookAuth from "../../firebase/auth/facebookAuth";
+import googleSignIn from "../../firebase/auth/googleSignIn";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
 
   const router = useRouter();
 
@@ -23,13 +28,56 @@ export default function Login() {
       return console.log(error);
     }
 
+    
     // else successful
     router.push("/dashboard");
   };
+  
+  const handleGoogle = () => {
+    const { user, error } = googleSignIn()
+    console.log(user)
+    
+
+    if (error) {
+      return console.log(error);
+    }
+
+    function userSigned() {
+      if(cookie.user === undefined) {
+        userSigned()
+      } else {
+        router.push("/dahsboard")
+      }
+    } 
+  }
+
+  const handleTwitter = () => {
+    const { user, error } = twitterAuth()
+    console.log(user)
+    
+
+    if (error) {
+      return console.log(error);
+    }
+
+    router.push("/dashboard");
+  }
+
+  const handleFacebook = () => {
+    const { user, error } = facebookAuth()
+    console.log(user)
+    
+
+    if (error) {
+      return console.log(error);
+    }
+
+    router.push("/dashboard");
+  }
 
   return (
     <main>
-      <div className="mx-auto h-full lg:h-screen max-w-8xl px-2 pt-10 pb-10 lg:pt-0 lg:pb-0 sm:px-5 lg:px-8 flex items-center justify-center justify-items-center flex-col lg:flex-row">
+      <div className="mx-auto h-[calc(100svh-theme('spacing.24'))] max-w-8xl px-2 pt-10 pb-10 sm:px-5 lg:px-28 flex items-center justify-center justify-items-center flex-col lg:flex-row">
         <div className="lg:flex-1 px-10 lg:pr-20 lg:pl-0 mx-20">
           <Image
             src={"/auth_illustration.png"}
@@ -114,27 +162,30 @@ export default function Login() {
             <span className="bg-gray-200 h-[1px] w-full mx-2"></span>
           </div>
           <div className="flex mt-8 mx-auto w-full justify-center">
-            <Link
-              href="#"
+            <button
+              onClick={handleGoogle}
+              type="button"
               aria-current="page"
               className="relative z-10 inline-flex items-center border border-gray-200 hover:border-blue-700 hover:text-gray-800 transition rounded-lg px-4 py-4 text-md font-medium text-gray-800 focus:z-20 mx-4"
             >
               <FaGoogle />
-            </Link>
-            <Link
-              href="#"
+            </button>
+            <button
+              onClick={handleTwitter}
+              type="button"
               aria-current="page"
               className="relative z-10 inline-flex items-center border border-gray-200 hover:border-blue-700 hover:text-gray-800 transition rounded-lg px-4 py-4 text-md font-medium text-gray-800 focus:z-20 mx-4"
             >
-              <FaApple />
-            </Link>
-            <Link
-              href="#"
+              <FaTwitter />
+            </button>
+            <button
+              onClick={handleFacebook}
+              type="button"
               aria-current="page"
               className="relative z-10 inline-flex items-center border border-gray-200  hover:border-blue-700 hover:text-gray-800 transition rounded-lg px-4 py-4 text-md font-medium text-gray-800 focus:z-20 mx-4"
             >
               <FaFacebookF />
-            </Link>
+            </button>
           </div>
           <div className="flex justify-center">
             <p className="text-gray-600 font-regular mt-8">
